@@ -46,13 +46,13 @@ class MainActivity : AppCompatActivity() {
             livesTextView.text = String.format(getString(R.string.life_string), lives.toString())
 
             gameScreen()
+            randomPokemon = getRandomPokemon()
 
-            for (i in 0..lives) {
-                randomPokemon = getRandomPokemon()
-                guessButton.setOnClickListener {
-                    guessPokemon(randomPokemon)
-                }
-            }
+        }
+
+        guessButton.setOnClickListener {
+            guessPokemon(randomPokemon)
+            randomPokemon = getRandomPokemon()
         }
 
         retryButton.setOnClickListener {
@@ -62,15 +62,8 @@ class MainActivity : AppCompatActivity() {
             livesTextView.text = String.format(getString(R.string.life_string), lives.toString())
 
             gameScreen()
+            randomPokemon = getRandomPokemon()
 
-            for (i in 0..lives) {
-                if (lives > 0) {
-                    randomPokemon = getRandomPokemon()
-                    guessButton.setOnClickListener {
-                        guessPokemon(randomPokemon)
-                    }
-                }
-            }
         }
 
     }
@@ -154,6 +147,8 @@ class MainActivity : AppCompatActivity() {
         val guess = guessEditText.text.toString().lowercase()
         val pokemonName = pokemon.name.lowercase()
 
+        println(guess)
+        println(pokemonName)
         when (guess) {
             pokemonName -> {
                 //show a snackbar the notify the user for the correct answer
