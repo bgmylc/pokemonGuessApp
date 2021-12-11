@@ -27,67 +27,70 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Define the views
         guessButton = findViewById(R.id.buttonGuess)
         startButton = findViewById(R.id.buttonStart)
         retryButton = findViewById(R.id.buttonRetry)
 
         pokemonImageView = findViewById(R.id.pokemonImageView)
+
         livesTextView = findViewById(R.id.textViewLives)
-        pokemonTextInput = findViewById(R.id.pokemonTextInputLayout)
         gameDescriptionText = findViewById(R.id.descriptionTextView)
         guessEditText = findViewById(R.id.pokemonEditText)
+        pokemonTextInput = findViewById(R.id.pokemonTextInputLayout)
 
+        //Get the settings for the first screen
         homeScreen()
-
 
         startButton.setOnClickListener {
             livesTextView.text = String.format(getString(R.string.life_string), lives.toString())
             gameScreen()
 
-        }
-
-        for (i in 0..lives) {
-            if (lives > 0) {
-                randomPokemon = getRandomPokemon()
-                guessButton.setOnClickListener {
-                    guessPokemon(randomPokemon)
+            for (i in 0..lives) {
+                if (lives > 0) {
+                    randomPokemon = getRandomPokemon()
+                    guessButton.setOnClickListener {
+                        guessPokemon(randomPokemon)
+                    }
                 }
-            }
 
+            }
         }
 
     }
 
+    //view visibility settings for the home screen
     private fun homeScreen() {
-        guessButton.setVisibility(View.INVISIBLE)
-        retryButton.setVisibility(View.INVISIBLE)
-        pokemonTextInput.setVisibility(View.INVISIBLE)
-        livesTextView.setVisibility(View.INVISIBLE)
-
-        pokemonImageView.setImageResource(R.drawable.pokeball)
-
+        guessButton.visibility = View.INVISIBLE
+        retryButton.visibility = View.INVISIBLE
+        pokemonTextInput.visibility = View.INVISIBLE
+        livesTextView.visibility = View.INVISIBLE
     }
 
+    //view visibility settings for the game screen
     private fun gameScreen() {
-        startButton.setVisibility(View.INVISIBLE)
-        gameDescriptionText.setVisibility(View.INVISIBLE)
+        startButton.visibility = View.INVISIBLE
+        gameDescriptionText.visibility = View.INVISIBLE
 
-        guessButton.setVisibility(View.VISIBLE)
-        pokemonTextInput.setVisibility(View.VISIBLE)
-        livesTextView.setVisibility(View.VISIBLE)
+        guessButton.visibility = View.VISIBLE
+        pokemonTextInput.visibility = View.VISIBLE
+        livesTextView.visibility = View.VISIBLE
     }
 
+    //view visibility settings for the game lost screen
     private fun lostScreen() {
-        retryButton.setVisibility(View.VISIBLE)
-        gameDescriptionText.setVisibility(View.VISIBLE)
+        retryButton.visibility = View.VISIBLE
+        gameDescriptionText.visibility = View.VISIBLE
 
-        guessButton.setVisibility(View.INVISIBLE)
-        pokemonTextInput.setVisibility(View.INVISIBLE)
-        livesTextView.setVisibility(View.INVISIBLE)
+        guessButton.visibility = View.INVISIBLE
+        pokemonTextInput.visibility = View.INVISIBLE
+        livesTextView.visibility = View.INVISIBLE
 
+        //set default image (which is the pokeball) for the game lost screen
         pokemonImageView.setImageResource(R.drawable.pokeball)
-        gameDescriptionText.text = String.format(getString(R.string.retry_text))
 
+        //set description for the game lost screen
+        gameDescriptionText.text = String.format(getString(R.string.retry_text))
     }
 
     private fun getRandomPokemon(): Pokemon {
@@ -153,7 +156,7 @@ class MainActivity : AppCompatActivity() {
                 lives -= 1
                 livesTextView.text =
                     String.format(getString(R.string.life_string), lives.toString())
-                if(lives == 0){
+                if (lives == 0) {
                     lostScreen()
                     retryButton.setOnClickListener {
                         gameScreen()
@@ -166,7 +169,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
