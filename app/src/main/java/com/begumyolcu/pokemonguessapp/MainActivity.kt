@@ -140,6 +140,9 @@ class MainActivity : AppCompatActivity() {
         //change the image view source for the random pokemon
         pokemonImageView.setImageResource(getRandomPokemon.imageSource)
 
+        //Set content description to ensure accessibility
+        pokemonImageView.contentDescription = getRandomPokemon.name
+
         return getRandomPokemon
     }
 
