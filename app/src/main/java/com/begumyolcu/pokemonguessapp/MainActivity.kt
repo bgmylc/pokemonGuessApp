@@ -44,6 +44,23 @@ class MainActivity : AppCompatActivity() {
 
         startButton.setOnClickListener {
             livesTextView.text = String.format(getString(R.string.life_string), lives.toString())
+
+            gameScreen()
+
+            for (i in 0..lives) {
+                randomPokemon = getRandomPokemon()
+                guessButton.setOnClickListener {
+                    guessPokemon(randomPokemon)
+                }
+            }
+        }
+
+        retryButton.setOnClickListener {
+            retryButton.visibility = View.INVISIBLE
+
+            lives = 3
+            livesTextView.text = String.format(getString(R.string.life_string), lives.toString())
+
             gameScreen()
 
             for (i in 0..lives) {
@@ -53,7 +70,6 @@ class MainActivity : AppCompatActivity() {
                         guessPokemon(randomPokemon)
                     }
                 }
-
             }
         }
 
@@ -94,12 +110,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getRandomPokemon(): Pokemon {
+        //get the pokemon list
         pokemonList = PokemonList.pokemonList
 
-        val pokemonSize = pokemonList.size
-        val randomPokemonIndex = (0 until pokemonSize).random()
-
-        val getRandomPokemon = when (randomPokemonIndex) {
+        //Get a random index to choose a pokemon and the pokemon with the corresponding index
+        val getRandomPokemon = when ((pokemonList.indices).random()) {
             0 -> pokemonList[0]
             1 -> pokemonList[1]
             2 -> pokemonList[2]
@@ -129,8 +144,8 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        val pokemonImage = getRandomPokemon.imageSource
-        pokemonImageView.setImageResource(pokemonImage)
+        //change the image view source for the random pokemon
+        pokemonImageView.setImageResource(getRandomPokemon.imageSource)
 
         return getRandomPokemon
     }
@@ -141,6 +156,7 @@ class MainActivity : AppCompatActivity() {
 
         when (guess) {
             pokemonName -> {
+                //show a snackbar the notify the user for the correct answer
                 Snackbar.make(
                     findViewById(R.id.constraintLayoutHome),
                     getString(R.string.correct),
@@ -148,24 +164,22 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             else -> {
+                //show a snackbar the notify the user for the wrong answer
                 Snackbar.make(
                     findViewById(R.id.constraintLayoutHome),
                     getString(R.string.wrong),
                     Snackbar.LENGTH_SHORT
                 ).show()
+
                 lives -= 1
                 livesTextView.text =
                     String.format(getString(R.string.life_string), lives.toString())
+
+                //get the settings for the game lost screen if lives are equal to 0
                 if (lives == 0) {
                     lostScreen()
-                    retryButton.setOnClickListener {
-                        gameScreen()
-                    }
                 }
-
             }
         }
-
     }
-
 }
